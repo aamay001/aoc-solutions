@@ -7,6 +7,7 @@ interface UseCheckBoxValue {
 }
 
 const useCheckBox = (
+  label: string,
   id: string,
   defaultValue?: boolean,
   name?: string,
@@ -17,7 +18,7 @@ const useCheckBox = (
   const CheckBox: JSX.Element = (
     <div className="checkbox-input">
       <label htmlFor="show-data">
-        <strong>Show Data</strong>
+        <strong>{label || 'Check Box'}</strong>
       </label>
       &nbsp;
       <input 

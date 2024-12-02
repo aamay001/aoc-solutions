@@ -9,7 +9,10 @@ const parseData = (data: string): number[][] => {
   return reports;
 }
 
-const isReportSafe = (levels: number[], withDampener: boolean = false): boolean => {
+const isReportSafe = (
+  levels: number[], 
+  withDampener: boolean = false,
+): boolean => {
   let isSafe = true;
   let isIncreasing = false;
   let isDecreating = false;
@@ -61,7 +64,8 @@ const isReportSafe = (levels: number[], withDampener: boolean = false): boolean 
   // from un safe to safe
   if (!isSafe && withDampener) {
     for (let i = 0; i < levels.length; i++) {
-      isSafe = isReportSafe(levels.filter((v, j) => (j !== i)));
+      isSafe = isReportSafe(levels.filter((v, j) => (v && j !== i)));
+
       if (isSafe) {
         break;
       }

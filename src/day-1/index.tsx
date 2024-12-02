@@ -10,7 +10,7 @@ File should be formatted as UTF-8.`;
 
 const Day1 = () => {
   const { FileInput: DataFileInput, fileData } = useFileInput('Input Data', '.txt', 'data', dataFileInstructions);
-  const { CheckBox: ShowDataCheckBox, checked: showData } = useCheckBox('show-data');
+  const { CheckBox: ShowDataCheckBox, checked: showData } = useCheckBox('Show Data', 'show-data');
 
   const part1 = day1Part1Solution(fileData) || false;
   const part2 = day1Part2Solution(fileData) || false;

@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router';
 
 import Home from './home';
-import Footer from './footer';
+import Footer from './components/footer';
 import { 
   Day1,
   Day2, 

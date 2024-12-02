@@ -16,11 +16,13 @@ const parseData = (data: string): [number[], number[]] => {
 const day1Part1Solution = (data: string): number => {
   const lists = parseData(data);
 
+  // Sort both lists
   const sortedList1 = lists[0].sort();
   const sortedList2 = lists[1].sort();
 
   let totalDistance: number = 0;
 
+  // Calculate total distance
   for (let i = 0; i < sortedList1.length; i++) {
     totalDistance += Math.abs(sortedList1[i] - sortedList2[i]);
   }
@@ -33,6 +35,7 @@ const day1Part2Solution = (data: string): number => {
 
   const list2Frequency = new Map<number,number>();
 
+  // Get the frequence of each number in list 2
   for (let i = 0; i < lists[1].length; i++) {
     const num = lists[1][i];
 
@@ -43,6 +46,7 @@ const day1Part2Solution = (data: string): number => {
     }
   }
 
+  // Calculate the similatiry score
   const similarityScore = lists[0].reduce((total, current) => {
     return total + (current * (list2Frequency.get(current) ?? 0));
   }, 0);
