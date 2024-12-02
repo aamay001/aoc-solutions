@@ -9,7 +9,7 @@ const Home = () => {
   return (
     <>
       <div>
-        <h1>Advent of Code</h1>
+        <h1>AoC++</h1>
         <a href="https://adventofcode.com/2024" target="_blank" rel="noopener noreferrer" style={{ color: 'gold' }}>
           <em>Solutions for 2024</em>
         </a>

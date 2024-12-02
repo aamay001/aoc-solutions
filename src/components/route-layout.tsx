@@ -41,7 +41,7 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
       <h1>{name}</h1>
       <em>
         <a href="https://adventofcode.com/2024" rel="noopener noreferrer">
-          Advent of Code 2024
+          AoC++ 2024
         </a>
       </em>
       <PageNav />
