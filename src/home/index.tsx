@@ -10,7 +10,9 @@ const Home = () => {
     <>
       <div>
         <h1>Advent of Code</h1>
-        <em>Solutions for 2024</em>
+        <a href="https://adventofcode.com/2024" target="_blank" rel="noopener noreferrer" style={{ color: 'gold' }}>
+          <em>Solutions for 2024</em>
+        </a>
       </div>
         <ol>
           {days.map(d => (

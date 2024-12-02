@@ -13,16 +13,9 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
   problemLink,
   dayIndex,
 }) => {
-  return (
-    <>
-      <h1>{name}</h1>
-      <em>Advent of Code 2024</em>
-      <hr />
-      {problemLink &&
-        <NavLink to={problemLink}>Puzzle Description</NavLink>}
-      {problemLink && <h2>Solution</h2>}
-      {children}
-      <hr />
+
+  const PageNav = () => (
+    <div className="page-nav">
       {dayIndex && dayIndex > 1 &&
         <>
           <NavLink to={`/day-${dayIndex - 1}`}>
@@ -40,6 +33,21 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
             Next Day
           </NavLink>
         </>}
+    </div>
+  );
+
+  return (
+    <>
+      <h1>{name}</h1>
+      <em>Advent of Code 2024</em>
+      <PageNav />
+      <hr />
+      {problemLink &&
+        <NavLink to={problemLink}>Puzzle Description</NavLink>}
+      {problemLink && <h2>Solution</h2>}
+      {children}
+      <hr />
+      <PageNav />
     </>
   );
 }
