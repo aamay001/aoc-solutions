@@ -9,7 +9,7 @@ Line endings should be LF.
 File should be formatted as UTF-8.`;
 
 const Day1 = () => {
-  const { FileInput: DataFileInput, fileData } = useFileInput('Input Data (File)', '.txt', 'data', dataFileInstructions);
+  const { FileInput: DataFileInput, fileData } = useFileInput('Input Data', '.txt', 'data', dataFileInstructions);
   const { CheckBox: ShowDataCheckBox, checked: showData } = useCheckBox('show-data');
 
   const part1 = day1Part1Solution(fileData) || false;
