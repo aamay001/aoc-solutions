@@ -1,3 +1,4 @@
+
 import { useMemo } from "react";
 import { NavLink } from "react-router";
 
@@ -27,7 +28,7 @@ const Home = () => {
         <ol>
           {days.map(d => (
             <li key={`day-${d}`} className="nav-day-link">
-              <NavLink to={`/day-${d}`}>Day {d}&nbsp;{completed[d] ? '⭐⭐' : ''}</NavLink>
+              <NavLink to={`/day/${d}`}>Day {d}&nbsp;{completed[d] ? '⭐⭐' : ''}</NavLink>
             </li>
           ))}
         </ol>
