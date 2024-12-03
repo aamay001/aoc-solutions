@@ -147,7 +147,8 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
               language="typescript"
               style={{ 
                 maxHeight: 400,
-                padding: 10,
+                maxWidth: '95VW',
+                padding: 5,
                 border: '1px solid #646cff',
                 overflow:'scroll',
                 marginBottom: 10,
