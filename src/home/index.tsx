@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { NavLink } from "react-router";
 
 import { appImageAlt } from "../constants/strings";
@@ -14,7 +15,7 @@ const completed: { [key: number]: boolean } = {
 };
 
 const Home = () => {
-  return (
+  return useMemo(() =>
     <>
       <div>
         <img src={appImage} className="app-image" width="100" alt={appImageAlt} />
@@ -31,7 +32,7 @@ const Home = () => {
           ))}
         </ol>
     </>
-  );
+  , []);
 }
 
 export default Home;
