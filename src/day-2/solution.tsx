@@ -3,7 +3,11 @@ const parseData = (data: string): number[][] => {
   const reports:  number[][] = [];
 
   for (let i = 0; i < lines.length; i++) {
-    reports.push(lines[i].split(' ').map(n => parseInt(n, 10)));
+    const reportStrings = lines[i].split(' ');
+
+    if (reportStrings.length > 1) {
+      reports.push(reportStrings.map(n => parseInt(n, 10)));
+    }
   }
 
   return reports;

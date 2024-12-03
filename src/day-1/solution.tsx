@@ -6,8 +6,10 @@ const parseData = (data: string): [number[], number[]] => {
 
   for (let i = 0; i < lines.length; i++) {
     const parts = lines[i].split('   ');
-    list1.push(parseInt(parts[0], 10));
-    list2.push(parseInt(parts[1], 10));
+    if (parts.length == 2) {
+      list1.push(parseInt(parts[0], 10));
+      list2.push(parseInt(parts[1], 10));
+    }
   }
 
   return [list1, list2];

@@ -66,14 +66,14 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
       <img src={appImage} className="app-image" width="100" alt={appImageAlt} />
       <h1>{name}</h1>
       <em>
-        <a href="https://adventofcode.com/2024" rel="noopener noreferrer">
+        <a href="https://adventofcode.com/2024" rel="noopener noreferrer" target="_blank">
           AoC++ 2024 Solutions
         </a>
       </em>
       <PageNav />
       <hr />
       {problemLink &&
-        <NavLink to={problemLink}>Puzzle Description</NavLink>}
+        <NavLink to={problemLink} target="_blank">Puzzle Description</NavLink>}
       {problemLink && <h2>Solution</h2>}
       {children}
       {problemLink && <ShowCodeCheckBox />}
