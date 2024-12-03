@@ -46,8 +46,6 @@ export const day3Part2Solution = (data: string): number | null => {
   let add = true;
   let total = 0;
 
-  console.log(operations);
-
   // Process the operations
   for (const op of operations) {
 
