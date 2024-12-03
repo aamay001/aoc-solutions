@@ -1,5 +1,3 @@
-
-
 export const parseData = (data: string, filter: RegExp): RegExpMatchArray | null => {
 
   const operations = data.match(filter);
