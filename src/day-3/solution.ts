@@ -11,7 +11,7 @@ const extractNumbers = (operation: string) => operation.replace('mul(', '')
   .map(n => parseInt(n, 10));
 
 export const day3Part1Solution = (data: string): number | null => {
-  // Use this filter to grap only the mul(,) operations from the data
+  // Use this filter to only grab the mul(,) operations from the data
   const filter = /(mul\(){1}?([0-9]{1,3},[0-9]{1,3})(\))/g;
 
   // Extract only the numbers from each operaion 
