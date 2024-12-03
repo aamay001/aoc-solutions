@@ -4,8 +4,8 @@ import CodeEditor from '@uiw/react-textarea-code-editor';
 
 import { useCheckBox } from "../hooks/use-check-box";
 import { getCodeUrl } from '../helpers/get-code-url';
-import appImage from '../assets/app.jpg';
 import { appImageAlt } from "../constants/strings";
+import appImage from '../assets/app.png';
 
 interface RouteLayoutProps {
   name: string;

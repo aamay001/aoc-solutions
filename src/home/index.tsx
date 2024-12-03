@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
 
-import appImage from '../assets/app.jpg';
 import { appImageAlt } from "../constants/strings";
+import appImage from '../assets/app.png';
 
 const days: number[] = [];
 for (let i = 0; i < 25; i++) {
