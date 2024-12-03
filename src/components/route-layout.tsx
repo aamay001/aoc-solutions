@@ -73,26 +73,28 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
         <NavLink to={problemLink}>Puzzle Description</NavLink>}
       {problemLink && <h2>Solution</h2>}
       {children}
-      <ShowCodeCheckBox />
-      {solutionCode && showCode &&
-        <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', }}>
-          <CodeEditor 
-            readOnly
-            placeholder="Fetching code from GitHub"
-            value={solutionCode} 
-            language="typescript"
-            style={{ 
-              maxHeight: 400,
-              padding: 10,
-              border: '1px solid #646cff',
-              overflow:'scroll',
-              marginBottom: 10,
-            }} 
-          />
-          <a href={getCodeUrl(dayIndex as number)} rel="noopener noreferrer" target="_blank" style={{ fontSize: 12 }}>
-            {getCodeUrl(dayIndex as number)}
-          </a>
-        </div>}
+      {problemLink && solutionCode && showCode &&
+        <>
+          <ShowCodeCheckBox />
+          <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', }}>
+            <CodeEditor 
+              readOnly
+              placeholder="Fetching code from GitHub"
+              value={solutionCode} 
+              language="typescript"
+              style={{ 
+                maxHeight: 400,
+                padding: 10,
+                border: '1px solid #646cff',
+                overflow:'scroll',
+                marginBottom: 10,
+              }} 
+            />
+            <a href={getCodeUrl(dayIndex as number)} rel="noopener noreferrer" target="_blank" style={{ fontSize: 12 }}>
+              {getCodeUrl(dayIndex as number)}
+            </a>
+          </div>
+        </>}
       <hr />
       <PageNav />
     </>
