@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 export const getMetaTagsForDay = (day: number): ReactNode[] => {
   return [
       <title key="tag-0">{`AoC++ 2024 Solutions | Day ${day}`}</title>,
-      <meta  key="tag-1" name="description" content={`Advent of Code (AoC++) 2024 solution and resolver for day ${day}.`} />,
+      <meta  key="tag-1" name="description" content={`Advent of Code (AoC++) 2024 solution and solver for day ${day}.`} />,
       <meta  key="tag-2" property="og:title" content={`AoC++ 2024 Solutions | Day ${day}`} />,
       <meta  key="tag-3" property="og:url" content={`https://aoc-solutions.netlify.app/day-${day}`} />,
       <meta  key="tag-4" property="og:description" content={`Advent of Code (AoC++) 2024 solution and solver for day ${day}.`} />,
