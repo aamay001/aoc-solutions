@@ -17,7 +17,7 @@ const Home = () => {
   return (
     <>
       <div>
-        <img src={appImage} width="100" alt={appImageAlt} />
+        <img src={appImage} className="app-image" width="100" alt={appImageAlt} />
         <h1>AoC++ 2024 Solutions</h1>
         <a href="https://adventofcode.com/2024" target="_blank" rel="noopener noreferrer" style={{ color: 'gold' }}>
           <em>Advent of Code</em>

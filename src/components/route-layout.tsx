@@ -63,7 +63,7 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
 
   return (
     <>
-      <img src={appImage} width="100" alt={appImageAlt} />
+      <img src={appImage} className="app-image" width="100" alt={appImageAlt} />
       <h1>{name}</h1>
       <em>
         <a href="https://adventofcode.com/2024" rel="noopener noreferrer">

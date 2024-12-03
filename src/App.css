@@ -1,5 +1,5 @@
 #root {
-  max-width: 1280px;
+  max-width: 100VW;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -67,11 +67,15 @@ i {
   height: 50px;
   border: 1px solid #888;
   min-width: 300px;
-  width: 80VW;
+  width: 90VW;
   max-width: 700px;
   margin-bottom: 10px;
 }
 
 .nav-day-link a:hover {
   background-color: black;
+}
+
+.app-image {
+  border-radius: 10px;
 }
