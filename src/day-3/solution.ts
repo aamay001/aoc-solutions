@@ -5,7 +5,7 @@ export const parseData = (data: string, filter: RegExp): RegExpMatchArray | null
   return operations;
 }
 
-export const day3Part1Solution = (data: string): number => {
+export const day3Part1Solution = (data: string): number | null => {
   // Use this filter to grap only the mul(,) operations from the data
   const filter = /(mul\(){1}?([0-9]{1,3},[0-9]{1,3})(\))/g;
 
@@ -18,7 +18,7 @@ export const day3Part1Solution = (data: string): number => {
   });;
 
   if (!operations) {
-    return -1;
+    return null;
   }
 
   let total: number = 0;
@@ -30,7 +30,7 @@ export const day3Part1Solution = (data: string): number => {
   return total;
 }
 
-export const day3Part2Solution = (data: string): number => {
+export const day3Part2Solution = (data: string): number | null => {
   // Use this filter to only grab the valid operations from the data
   // do() | don't() | mul(,)
   const filter = /((mul\(){1}([0-9]{1,3},[0-9]{1,3}){1}(\){1}))|((do\(){1}(\){1}))|((don't\(){1}(\){1}))/g;
@@ -38,7 +38,7 @@ export const day3Part2Solution = (data: string): number => {
   const operations = parseData(data, filter);
 
   if (!operations) {
-    return -1;
+    return null;
   }
 
   let add = true;
