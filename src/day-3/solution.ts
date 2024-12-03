@@ -5,16 +5,18 @@ export const parseData = (data: string, filter: RegExp): RegExpMatchArray | null
   return operations;
 }
 
+const extractNumbers = (operation: string) => operation.replace('mul(', '')
+  .replace(')', '')
+  .split(',')
+  .map(n => parseInt(n, 10));
+
 export const day3Part1Solution = (data: string): number | null => {
   // Use this filter to grap only the mul(,) operations from the data
   const filter = /(mul\(){1}?([0-9]{1,3},[0-9]{1,3})(\))/g;
 
   // Extract only the numbers from each operaion 
   const operations = parseData(data, filter)?.map(op => {
-    return op.replace('mul(', '')
-      .replace(')', '')
-      .split(',')
-      .map(n => parseInt(n, 10));
+    return extractNumbers(op);
   });;
 
   if (!operations) {
@@ -61,7 +63,7 @@ export const day3Part2Solution = (data: string): number | null => {
 
       if (add) {
 
-        const nums = op.replace('mul(', '').replace(')', '').split(',').map(p => parseInt(p, 10));
+        const nums = extractNumbers(op);
         total += nums[0] * nums[1];
 
       }
