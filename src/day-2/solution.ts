@@ -79,8 +79,12 @@ const isReportSafe = (
   return isSafe;
 }
 
-const day2Part1Solution = (data: string): number => {
+const day2Part1Solution = (data: string): number | null => {
   const reports = parseData(data);
+
+  if (!reports) {
+    return null;
+  }
 
   let safeReportsCount: number = 0;
 
@@ -93,8 +97,12 @@ const day2Part1Solution = (data: string): number => {
   return safeReportsCount;
 }
 
-const day2Part2Solution = (data: string): number => {
+const day2Part2Solution = (data: string): number | null => {
   const reports = parseData(data);
+
+  if (!reports) {
+    return null;
+  }
 
   let safeReportsCount: number = 0;
 

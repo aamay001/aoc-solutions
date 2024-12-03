@@ -7,6 +7,11 @@ import Day2 from "./day-2";
 import Day3 from './day-3';
 import Day4 from "./day-4";
 import Day5 from "./day-5";
+import Day6 from "./day-6";
+import Day7 from "./day-7";
+import Day8 from "./day-8";
+import Day9 from "./day-9";
+import Day10 from "./day-10";
 
 const solutionRoutes: (() => JSX.Element)[]  = [
   Day1,
@@ -14,6 +19,11 @@ const solutionRoutes: (() => JSX.Element)[]  = [
   Day3,
   Day4,
   Day5,
+  Day6,
+  Day7,
+  Day8,
+  Day9,
+  Day10
 ];
 
 export const SolutionForDay: React.FC = () => {

@@ -18,8 +18,8 @@ interface RouteLayoutProps {
   children?: React.ReactNode,
   problemLink?: string,
   dayIndex?: number,
-  part1Solution?: (data: string) => number,
-  part2Solution?: (data: string) => number
+  part1Solution?: (data: string) => number | null,
+  part2Solution?: (data: string) => number | null
 }
 
 const RouteLayout: React.FC<RouteLayoutProps> = ({

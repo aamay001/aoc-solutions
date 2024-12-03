@@ -15,8 +15,12 @@ const parseData = (data: string): [number[], number[]] => {
   return [list1, list2];
 }
 
-const day1Part1Solution = (data: string): number => {
+const day1Part1Solution = (data: string): number | null => {
   const lists = parseData(data);
+
+  if (!lists) {
+    return null;
+  }
 
   // Sort both lists
   const sortedList1 = lists[0].sort();
@@ -32,8 +36,12 @@ const day1Part1Solution = (data: string): number => {
   return totalDistance;
 }
 
-const day1Part2Solution = (data: string): number => {
+const day1Part2Solution = (data: string): number | null => {
   const lists = parseData(data);
+
+  if (!lists) {
+    return null;
+  }
 
   const list2Frequency = new Map<number,number>();
 
