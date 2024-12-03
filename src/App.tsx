@@ -12,6 +12,7 @@ import {
 import './App.css'
 import NotFound from './components/not-found';
 import { getHomeMetaTags, getMetaTagsForDay } from './helpers/meta-tag';
+import { scrollToTop } from './helpers/scroll-top';
 
 function App() {
   const location = useLocation();
@@ -25,6 +26,7 @@ function App() {
     } else {
       setMetaTags(getHomeMetaTags());
     }
+    scrollToTop();
 
   }, [location]);
 
