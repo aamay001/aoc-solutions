@@ -38,13 +38,13 @@ const Day2 = () => {
         <i style={errorStyle}>
           {!fileData && noDataMessage}
           {fileData && !part1 && fileErrorMessage}
-          {part1}
+          {fileData && part1}
         </i>
         <strong>Part 2</strong>
         <i style={errorStyle}>
           {!fileData && noDataMessage}
           {fileData && !part2 && fileErrorMessage}
-          {part2}
+          {fileData && part2}
         </i>
       </div>
     </RouteLayout>
