@@ -3,7 +3,7 @@ const Footer = () => (
     <br />
     <i style={{ fontSize: 'small' }}>
       Don't use this to solve your puzzle!<br/>
-      AoC++ is an opportunity to level up your coding skills!<br/>
+      Use AoC++ to level up your coding skills!<br/>
       Everything was coded without AI!
     </i>
     <p>Made by <a href="https://andyamaya.com" target="_blank">Andy Amaya</a></p>

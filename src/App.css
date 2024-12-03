@@ -1,8 +1,11 @@
 #root {
   max-width: 100VW;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .card {
@@ -16,8 +19,10 @@
 }
 
 hr {
-  width: 75VW;
-  margin: 25px;
+  width: 85VW;
+  margin: 10px;
+  max-width: 700px;
+
 }
 
 .file-input-wrapper {
@@ -28,7 +33,11 @@ hr {
 
 .file-input-wrapper input {
   margin-top: 10px;
-  margin-left: 125px;
+  height: 45px;
+}
+
+.file-input-wrapper input::file-selector-button {
+  margin-right: 20px;
 }
 
 textarea {
@@ -56,6 +65,8 @@ i {
 
 .page-nav {
   margin: 15px;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .nav-day-link a {
