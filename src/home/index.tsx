@@ -13,6 +13,7 @@ for (let i = 0; i < 25; i++) {
 const completed: { [key: number]: boolean } = {
   1: true,
   2: true,
+  3: true,
 };
 
 const Home = () => {
