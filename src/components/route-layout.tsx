@@ -4,6 +4,8 @@ import CodeEditor from '@uiw/react-textarea-code-editor';
 
 import { useCheckBox } from "../hooks/use-check-box";
 import { getCodeUrl } from '../helpers/get-code-url';
+import appImage from '../assets/app.jpg';
+import { appImageAlt } from "../constants/strings";
 
 interface RouteLayoutProps {
   name: string;
@@ -61,6 +63,7 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
 
   return (
     <>
+      <img src={appImage} width="100" alt={appImageAlt} />
       <h1>{name}</h1>
       <em>
         <a href="https://adventofcode.com/2024" rel="noopener noreferrer">

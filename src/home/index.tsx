@@ -1,5 +1,8 @@
 import { NavLink } from "react-router";
 
+import appImage from '../assets/app.jpg';
+import { appImageAlt } from "../constants/strings";
+
 const days: number[] = [];
 for (let i = 0; i < 25; i++) {
   days.push(i+1);
@@ -9,9 +12,10 @@ const Home = () => {
   return (
     <>
       <div>
-        <h1>AoC++</h1>
+        <img src={appImage} width="100" alt={appImageAlt} />
+        <h1>AoC++ 2024 Solutions</h1>
         <a href="https://adventofcode.com/2024" target="_blank" rel="noopener noreferrer" style={{ color: 'gold' }}>
-          <em>Solutions for 2024</em>
+          <em>Advent of Code</em>
         </a>
       </div>
         <ol>
