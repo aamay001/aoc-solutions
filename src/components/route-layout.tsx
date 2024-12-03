@@ -76,9 +76,9 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
         <NavLink to={problemLink}>Puzzle Description</NavLink>}
       {problemLink && <h2>Solution</h2>}
       {children}
-      {problemLink && solutionCode && showCode &&
+      {problemLink && <ShowCodeCheckBox />}
+      {solutionCode && showCode &&
         <>
-          <ShowCodeCheckBox />
           <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', }}>
             <CodeEditor 
               readOnly

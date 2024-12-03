@@ -67,7 +67,8 @@ const useFileInput = (
             borderRadius: 360,
             width: 50,
             height: 50,
-            textAlign: 'center'
+            textAlign: 'center',
+            margin: 5,
           }}
         >
           ?
