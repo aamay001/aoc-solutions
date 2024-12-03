@@ -1,5 +1,5 @@
 {
-  "name": "advent-of-code",
+  "name": "aoc-2024-solutions",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -13,6 +13,7 @@
     "@uiw/react-textarea-code-editor": "^3.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-helmet": "^6.1.0",
     "react-router": "^7.0.1",
     "uuid": "^11.0.3"
   },
@@ -20,6 +21,7 @@
     "@eslint/js": "^9.15.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@types/react-helmet": "^6.1.11",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.15.0",
     "eslint-plugin-react-hooks": "^5.0.0",

@@ -62,6 +62,7 @@ const useFileInput = (
         />
         <button 
           onClick={() => alert(helpMessage)}
+          type="button"
           style={{
             borderRadius: 360,
             width: 50,

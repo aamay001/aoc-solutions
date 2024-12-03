@@ -2,11 +2,11 @@ import RouteLayout from "../components/route-layout";
 import { useFileInput } from "../hooks/use-file-input";
 import { useCheckBox } from "../hooks/use-check-box";
 import { day2Part1Solution, day2Part2Solution } from "./solution";
-
-const errorMessage: string = 'File loaded but something is wrong with your data 🤷‍♂️';
-const dataFileInstructions = `Input data must be in a .txt file.
-Line endings should be LF.
-File should be formatted as UTF-8.`;
+import {
+  noDataMessage,
+  fileErrorMessage,
+  dataFileInstructions,
+} from '../constants/strings';
 
 const Day2 = () => {
 
@@ -36,14 +36,14 @@ const Day2 = () => {
         <h3>Answer</h3>
         <strong>Part 1</strong>
         <i style={errorStyle}>
-          {!fileData && 'No Data Loaded'}
-          {fileData && !part1 && errorMessage}
+          {!fileData && noDataMessage}
+          {fileData && !part1 && fileErrorMessage}
           {part1}
         </i>
         <strong>Part 2</strong>
         <i style={errorStyle}>
-          {!fileData && 'No Data Loaded'}
-          {fileData && !part2 && errorMessage}
+          {!fileData && noDataMessage}
+          {fileData && !part2 && fileErrorMessage}
           {part2}
         </i>
       </div>

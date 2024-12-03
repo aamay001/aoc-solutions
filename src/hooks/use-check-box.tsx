@@ -17,7 +17,7 @@ const useCheckBox = (
 
   const CheckBox: JSX.Element = (
     <div className="checkbox-input">
-      <label htmlFor="show-data">
+      <label htmlFor={id}>
         <strong>{label || 'Check Box'}</strong>
       </label>
       &nbsp;
