@@ -43,19 +43,20 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
     CheckBox: ShowCodeCheckBox,
     checked: showCode,
   } = useCheckBox('Show Code', 'show-code');
+  const codeURL = useMemo(() => getCodeUrl(dayIndex as number), [dayIndex]);
 
   useEffect(() => {
 
     const getCode = async () => {
-      const res = await fetch(getCodeUrl(dayIndex as number));
+      const res = await fetch(codeURL);
       setSolutionCode(await res.text());
     }
 
     if (!solutionCode && dayIndex) {
       getCode();
     }
-    
-  }, [dayIndex, solutionCode]);
+
+  }, [codeURL, solutionCode, dayIndex]);
   
   const PageNav = () => (
     <div className="page-nav">
@@ -153,12 +154,12 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
               }} 
             />
             <a 
-              href={getCodeUrl(dayIndex as number)}
+              href={codeURL}
               rel="noopener noreferrer" 
               target="_blank" 
               style={{ fontSize: 12 }}
             >
-              {getCodeUrl(dayIndex as number)}
+              {codeURL}
             </a>
           </div>
         </>}

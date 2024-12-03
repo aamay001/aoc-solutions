@@ -26,7 +26,7 @@ function App() {
 
     scrollToTop();
 
-  }, []);
+  }, [params?.id]);
 
   return (
     <>
