@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 
 import Home from './home';
 import Footer from './components/footer';
-import { SolutionForDay } from './routes';
+import { SolutionForDay } from './components/day-solution-resolver';
 import NotFound from './components/not-found';
 import { getHomeMetaTags, getDayMetaTags } from './helpers/meta-tag';
 import { scrollToTop } from './helpers/scroll-top';

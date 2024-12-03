@@ -1,23 +1,23 @@
 import { useParams } from "react-router";
 import { ErrorBoundary } from "react-error-boundary";
 
-import NotFound from "./components/not-found";
-import Day1 from "./day-1";
-import Day2 from "./day-2";
-import Day3 from './day-3';
-import Day4 from "./day-4";
-import Day5 from "./day-5";
-import Day6 from "./day-6";
-import Day7 from "./day-7";
-import Day8 from "./day-8";
-import Day9 from "./day-9";
-import Day10 from "./day-10";
-import Day11 from "./day-11";
-import Day12 from "./day-12";
-import Day13 from "./day-13";
-import Day14 from "./day-14";
-import Day15 from "./day-15";
-import Day16 from "./day-16";
+import NotFound from "./not-found";
+import Day1 from "../day-1";
+import Day2 from "../day-2";
+import Day3 from '../day-3';
+import Day4 from "../day-4";
+import Day5 from "../day-5";
+import Day6 from "../day-6";
+import Day7 from "../day-7";
+import Day8 from "../day-8";
+import Day9 from "../day-9";
+import Day10 from "../day-10";
+import Day11 from "../day-11";
+import Day12 from "../day-12";
+import Day13 from "../day-13";
+import Day14 from "../day-14";
+import Day15 from "../day-15";
+import Day16 from "../day-16";
 
 const solutionRoutes: (() => JSX.Element)[]  = [
   Day1,
