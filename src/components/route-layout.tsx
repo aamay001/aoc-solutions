@@ -31,7 +31,7 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
       setSolutionCode(await res.text());
     }
 
-    if (!solutionCode) {
+    if (!solutionCode && dayIndex) {
       getCode();
     }
     
