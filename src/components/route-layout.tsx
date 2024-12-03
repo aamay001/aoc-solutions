@@ -79,7 +79,14 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
       {problemLink && <ShowCodeCheckBox />}
       {solutionCode && showCode &&
         <>
-          <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', }}>
+          <div 
+            style={{ 
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column', 
+              alignItems: 'center',
+            }}
+          >
             <CodeEditor 
               readOnly
               placeholder="Fetching code from GitHub"
@@ -93,7 +100,12 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
                 marginBottom: 10,
               }} 
             />
-            <a href={getCodeUrl(dayIndex as number)} rel="noopener noreferrer" target="_blank" style={{ fontSize: 12 }}>
+            <a 
+              href={getCodeUrl(dayIndex as number)}
+              rel="noopener noreferrer" 
+              target="_blank" 
+              style={{ fontSize: 12 }}
+            >
               {getCodeUrl(dayIndex as number)}
             </a>
           </div>
