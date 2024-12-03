@@ -20,7 +20,7 @@ const Home = () => {
       </div>
         <ol>
           {days.map(d => (
-            <li key={`day-${d}`}>
+            <li key={`day-${d}`} className="nav-day-link">
               <NavLink to={`/day-${d}`}>Day {d}</NavLink>
             </li>
           ))}

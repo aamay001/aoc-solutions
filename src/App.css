@@ -58,3 +58,20 @@ i {
   margin: 15px;
 }
 
+.nav-day-link a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  height: 50px;
+  border: 1px solid #888;
+  min-width: 300px;
+  width: 80VW;
+  max-width: 700px;
+  margin-bottom: 10px;
+}
+
+.nav-day-link a:hover {
+  background-color: black;
+}
