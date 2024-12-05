@@ -162,7 +162,7 @@ export const day4Part1Solution = (data: string): number | null => {
     const currentRow = grid[i];
 
     for (let j = 0; j < currentRow.length; j++) {
-      if (currentRow[j] === 'X' || currentRow[j] === 'SAM') {
+      if (currentRow[j] === 'X') {
         totalWordsFound += findTargetWord('XMAS', grid, [i, j]);
       }
     }
