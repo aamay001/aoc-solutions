@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route, useParams } from 'react-router';
+import { Routes, Route, useLocation } from 'react-router';
 import { Helmet } from 'react-helmet';
 
 import Home from './home';
@@ -12,11 +12,13 @@ import { scrollToTop } from './helpers/scroll-top';
 import './App.css'
 
 function App() {
-  const params = useParams();
+  const location = useLocation();
   const [metaTags, setMetaTags] = useState<React.ReactNode[]>(getHomeMetaTags());
 
+  const dayForRoute = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
+
   useEffect(() => {
-    const day = parseInt(params?.id as string, 10);
+    const day = parseInt(dayForRoute as string, 10);
 
     if (!isNaN(day)) {
       setMetaTags(getDayMetaTags(day));
@@ -26,7 +28,7 @@ function App() {
 
     scrollToTop();
 
-  }, [params?.id]);
+  }, [dayForRoute]);
 
   return (
     <>
