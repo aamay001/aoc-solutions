@@ -6,7 +6,7 @@ const Day7 = () => {
     <RouteLayout 
       name="Day 7"
       problemLink="https://adventofcode.com/2024/day/7"
-      dayIndex={5}
+      dayIndex={7}
       part1Solution={day7Part1Solution}
       part2Solution={day7Part2Solution}
     />
