@@ -16,6 +16,8 @@ const completed: { [key: number]: boolean } = {
   3: true,
   4: true,
   5: true,
+  6: false,
+  7: true,
 };
 
 const Home = () => {
