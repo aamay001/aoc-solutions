@@ -11,7 +11,8 @@ const useFileInput = (
   label: string,
   accept: string,
   id: string,
-  helpMessage?: string,
+  helpMessage: string,
+  onFileChaged: (filedata: string) => void,
   name?: string,
 ): UseFileInputValue => {
 
@@ -35,6 +36,7 @@ const useFileInput = (
           const { target } = event;
           if (target?.result) {
             setFileData(target.result as string);
+            onFileChaged(target.result as string);
           }
         }
 
@@ -44,9 +46,10 @@ const useFileInput = (
     } catch (error) {
 
       alert(error);
+      onFileChaged('');
 
     }
-  }, []);
+  }, [onFileChaged]);
 
   const FileInput: JSX.Element = (
     <div className="file-input-wrapper">

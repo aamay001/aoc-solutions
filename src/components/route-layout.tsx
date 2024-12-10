@@ -10,6 +10,7 @@ import {
   noDataMessage,
   dataFileInstructions,
   fileErrorMessage,
+  calculating,
 } from '../constants/strings';
 import appImage from '../assets/app.png';
 
@@ -22,6 +23,8 @@ interface RouteLayoutProps {
   part2Solution?: (data: string) => number | null
 }
 
+type SolutionState = 'NODATA' | 'WAITING' | 'CALCULATING' | 'ERROR' | 'SOLVED';
+
 const RouteLayout: React.FC<RouteLayoutProps> = ({
   name,
   children,
@@ -30,10 +33,6 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
   part1Solution,
   part2Solution,
 }) => {
-  const { 
-    FileInput: DataFileInput, 
-    fileData 
-  } = useFileInput('Input Data', '.txt', 'data', dataFileInstructions);
   const { 
     CheckBox: ShowDataCheckBox, 
     checked: showData 
@@ -44,6 +43,28 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
     checked: showCode,
   } = useCheckBox('Show Code', 'show-code');
   const codeURL = useMemo(() => getCodeUrl(dayIndex as number), [dayIndex]);
+  const [part2Answer, setPart2Answer] = useState<number | null>(null);
+  const [part1Answer, setPart1Answer] = useState<number | null>(null);
+  const [part1State, setPart1State] = useState<SolutionState>('NODATA');
+  const [part2State, setPart2State] = useState<SolutionState>('NODATA');
+
+  const onFileChanged = (fd: string) => {
+    if (!fd) {
+      setPart1State(() => 'NODATA');
+      setPart2State(() => 'NODATA');
+    } else {
+      setPart1State(() => 'CALCULATING');
+      setPart2State(() => 'CALCULATING');
+    }
+
+    setPart1Answer(() => null);
+    setPart2Answer(() => null);
+  }
+
+  const { 
+    FileInput: DataFileInput, 
+    fileData
+  } = useFileInput('Input Data', '.txt', 'data', dataFileInstructions, onFileChanged);
 
   useEffect(() => {
 
@@ -57,6 +78,58 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
     }
 
   }, [codeURL, solutionCode, dayIndex]);
+
+  useEffect(() => {
+    if (part1State === 'CALCULATING') {
+
+      const calculatePart1 = async () => {
+        try {
+          const part1 = await new Promise<number | null>((res, rej) => {
+            const ans = part1Solution?.(fileData); 
+            if (ans) {
+              res(ans);
+            } else {
+              rej(ans);
+            }
+          });
+
+          setPart1Answer(() => part1);
+          setPart1State((() => 'SOLVED'));
+        } catch {
+          setPart1Answer(() => null);
+          setPart1State(() => 'ERROR');
+        }
+      }
+
+      setTimeout(() => calculatePart1(), 0);
+    }
+
+    if (part2State === 'CALCULATING') {
+
+      const calculatePart2 = async () => {
+        try {
+          const part2 = await new Promise<number | null>((res, rej) => {
+            const ans = part2Solution?.(fileData);
+            if (ans) {
+              res(ans);
+            } else {
+              rej(ans);
+            }
+          });
+
+          setPart2Answer(() => part2);
+          setPart2State(() => 'SOLVED');
+
+        } catch {
+          setPart2Answer(() => null);
+          setPart2State(() => 'ERROR');
+        }
+      }
+      setTimeout(() => calculatePart2(), 0);
+    }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [part1State, part2State]);
   
   const PageNav = () => (
     <div className="page-nav">
@@ -80,13 +153,8 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
     </div>
   );
 
-  const part1 = useMemo(() => part1Solution?.(fileData) || false, [fileData, part1Solution]);
-  const part2 = useMemo(() => part2Solution?.(fileData) || false, [fileData, part2Solution]);
-
   const errorStyle = {
-    color: fileData && !part1 
-      ? 'red' 
-      : undefined 
+    color: 'red' 
   };
 
   return (
@@ -112,17 +180,23 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
       {part1Solution && part2Solution &&
         <div className="card">
           <h3>Answer</h3>
-          <strong>Part 1</strong>
-          <i style={errorStyle}>
-            {!fileData && noDataMessage}
-            {fileData && !part1 && fileErrorMessage}
-            {part1}
+          <div className="solution-part-header">
+            <strong>Part 1</strong>
+          </div>
+          <i style={part1State === 'ERROR' ? errorStyle : undefined}>
+            {part1State === 'NODATA' && noDataMessage}
+            {part1State === 'ERROR' && fileErrorMessage}
+            {part1State === 'CALCULATING' && calculating}
+            {part1State === 'SOLVED' && part1Answer}
           </i>
-          <strong>Part 2</strong>
-          <i style={errorStyle}>
-            {!fileData && noDataMessage}
-            {fileData && !part2 && fileErrorMessage}
-            {part2}
+          <div className="solution-part-header">
+            <strong>Part 2</strong>
+          </div>
+          <i style={part2State === 'ERROR' ? errorStyle : undefined}>
+            {part2State === 'NODATA' && noDataMessage}
+            {part2State === 'ERROR' && fileErrorMessage}
+            {part2State === 'CALCULATING' && calculating}
+            {part2State === 'SOLVED' && part2Answer}
           </i>
         </div>
       }

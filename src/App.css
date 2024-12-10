@@ -90,3 +90,9 @@ i {
 .app-image {
   border-radius: 10px;
 }
+
+.solution-part-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
