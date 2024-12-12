@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { NavLink } from "react-router";
 import CodeEditor from '@uiw/react-textarea-code-editor';
 
@@ -6,13 +6,10 @@ import { useFileInput } from "../hooks/use-file-input";
 import { useCheckBox } from "../hooks/use-check-box";
 import { getCodeUrl } from '../helpers/get-code-url';
 import { appImageAlt } from "../constants/strings";
-import {
-  noDataMessage,
-  dataFileInstructions,
-  fileErrorMessage,
-  calculating,
-} from '../constants/strings';
+
+import { dataFileInstructions } from '../constants/strings';
 import appImage from '../assets/app.png';
+import SolutionAnswer from "./solution-answers";
 
 interface RouteLayoutProps {
   name: string;
@@ -22,8 +19,6 @@ interface RouteLayoutProps {
   part1Solution?: (data: string) => number | null,
   part2Solution?: (data: string) => number | null
 }
-
-type SolutionState = 'NODATA' | 'WAITING' | 'CALCULATING' | 'ERROR' | 'SOLVED';
 
 const RouteLayout: React.FC<RouteLayoutProps> = ({
   name,
@@ -42,23 +37,35 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
     CheckBox: ShowCodeCheckBox,
     checked: showCode,
   } = useCheckBox('Show Code', 'show-code');
-  const codeURL = useMemo(() => getCodeUrl(dayIndex as number), [dayIndex]);
+  const codeURL = getCodeUrl(dayIndex as number);
   const [part2Answer, setPart2Answer] = useState<number | null>(null);
   const [part1Answer, setPart1Answer] = useState<number | null>(null);
   const [part1State, setPart1State] = useState<SolutionState>('NODATA');
   const [part2State, setPart2State] = useState<SolutionState>('NODATA');
+  const [, startTransition] = useTransition();
+
+  // This tests the solution with no data. 
+  // An unimplemented solution will throw an error
+  // and render the error boundry
+  useEffect(() => {
+    part1Solution?.('');
+    part2Solution?.('');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onFileChanged = (fd: string) => {
-    if (!fd) {
-      setPart1State(() => 'NODATA');
-      setPart2State(() => 'NODATA');
-    } else {
-      setPart1State(() => 'CALCULATING');
-      setPart2State(() => 'CALCULATING');
-    }
+    startTransition(() => {
+      setPart1Answer(null);
+      setPart2Answer(null);
 
-    setPart1Answer(() => null);
-    setPart2Answer(() => null);
+      if (fd) {
+        setPart1State('CALCULATING');
+        setPart2State('CALCULATING');
+      } else {
+        setPart1State('NODATA');
+        setPart2State('NODATA');
+      }
+    });
   }
 
   const { 
@@ -80,53 +87,36 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
   }, [codeURL, solutionCode, dayIndex]);
 
   useEffect(() => {
-    if (part1State === 'CALCULATING') {
+    // Stall a bit and macrotask
+    setTimeout(() => {
+      if (part1State === 'CALCULATING') {
 
-      const calculatePart1 = async () => {
-        try {
-          const part1 = await new Promise<number | null>((res, rej) => {
-            const ans = part1Solution?.(fileData); 
-            if (ans) {
-              res(ans);
-            } else {
-              rej(ans);
-            }
-          });
-
-          setPart1Answer(() => part1);
-          setPart1State((() => 'SOLVED'));
-        } catch {
-          setPart1Answer(() => null);
-          setPart1State(() => 'ERROR');
+        if (part1Solution) {
+          const p1 = part1Solution(fileData);
+          if (p1) {
+            setPart1Answer(p1);
+            setPart1State('SOLVED');
+          } else {
+            setPart1Answer(null);
+            setPart1State('ERROR');
+          }
         }
       }
 
-      setTimeout(() => calculatePart1(), 0);
-    }
+      if (part2State === 'CALCULATING') {
 
-    if (part2State === 'CALCULATING') {
-
-      const calculatePart2 = async () => {
-        try {
-          const part2 = await new Promise<number | null>((res, rej) => {
-            const ans = part2Solution?.(fileData);
-            if (ans) {
-              res(ans);
-            } else {
-              rej(ans);
-            }
-          });
-
-          setPart2Answer(() => part2);
-          setPart2State(() => 'SOLVED');
-
-        } catch {
-          setPart2Answer(() => null);
-          setPart2State(() => 'ERROR');
+        if (part2Solution) {
+          const p2 = part2Solution(fileData);
+          if (p2) {
+            setPart2Answer(p2);
+            setPart2State('SOLVED');
+          } else {
+            setPart2Answer(null);
+            setPart2State('ERROR');
+          }
         }
       }
-      setTimeout(() => calculatePart2(), 0);
-    }
+    }, 10);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [part1State, part2State]);
@@ -153,10 +143,6 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
     </div>
   );
 
-  const errorStyle = {
-    color: 'red' 
-  };
-
   return (
     <>
       <img src={appImage} className="app-image" width="100" alt={appImageAlt} />
@@ -176,30 +162,13 @@ const RouteLayout: React.FC<RouteLayoutProps> = ({
       {problemLink && <ShowDataCheckBox />}
       {showData &&
         <textarea value={fileData} readOnly />}
-
       {part1Solution && part2Solution &&
-        <div className="card">
-          <h3>Answer</h3>
-          <div className="solution-part-header">
-            <strong>Part 1</strong>
-          </div>
-          <i style={part1State === 'ERROR' ? errorStyle : undefined}>
-            {part1State === 'NODATA' && noDataMessage}
-            {part1State === 'ERROR' && fileErrorMessage}
-            {part1State === 'CALCULATING' && calculating}
-            {part1State === 'SOLVED' && part1Answer}
-          </i>
-          <div className="solution-part-header">
-            <strong>Part 2</strong>
-          </div>
-          <i style={part2State === 'ERROR' ? errorStyle : undefined}>
-            {part2State === 'NODATA' && noDataMessage}
-            {part2State === 'ERROR' && fileErrorMessage}
-            {part2State === 'CALCULATING' && calculating}
-            {part2State === 'SOLVED' && part2Answer}
-          </i>
-        </div>
-      }
+        <SolutionAnswer 
+          part1State={part1State}
+          part2State={part2State}
+          part1Answer={part1Answer}
+          part2Answer={part2Answer}
+        />}
 
       {children}
 

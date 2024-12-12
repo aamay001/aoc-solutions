@@ -1,0 +1,1 @@
+type SolutionState = 'NODATA' | 'WAITING' | 'CALCULATING' | 'ERROR' | 'SOLVED';

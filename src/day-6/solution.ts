@@ -194,7 +194,8 @@ export const day6Part2Solution = (data: string): number | null => {
   }
 
   const startTime = Date.now();
-  console.clear();
+  // console.clear();
+
   const [map, startPosition] = parseData(data);
   const startDirection = DIRECTION.UP;
   let loopCount: number = 0;
@@ -231,7 +232,7 @@ export const day6Part2Solution = (data: string): number | null => {
     }
   }
 
-  console.log(loopCount, loopTracker.size); 
-  console.log(`Runtime: ${Date.now() - startTime}ms`);
-  return loopTracker.size;
+    console.log(loopCount, loopTracker.size); 
+    console.log(`Runtime: ${Date.now() - startTime}ms`);
+    return loopTracker.size;
 }
