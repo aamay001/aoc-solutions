@@ -71,7 +71,7 @@ i {
 
 .nav-day-link a {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   border-radius: 5px;
@@ -95,4 +95,8 @@ i {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.incomplete-star {
+  opacity: .05;
 }
