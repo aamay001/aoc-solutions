@@ -4,7 +4,8 @@ const Footer = () => (
     <i style={{ fontSize: 'small' }}>
       Don't use this to solve your puzzle!<br/>
       Use AoC++ to level up your coding skills!<br/>
-      Everything was coded without AI!
+      The layout, navigation, and structure was coded without AI.<br />
+      Some solutions were coded or optimized with the help of AI.
     </i>
     <p>Made by <a href="https://andyamaya.com" target="_blank">Andy Amaya</a></p>
     <p>
