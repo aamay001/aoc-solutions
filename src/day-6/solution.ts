@@ -1,7 +1,35 @@
+type Direction = 0 | 1 | 2 | 3;
 type Position = [x: number, y: number];
 
+const DIRECTION: Record<string, Direction> = {
+  UP: 0,
+  RIGHT: 1,
+  DOWN: 2,
+  LEFT: 3
+} as const;
+
+type BoundsCheck = {
+  minX: number;
+  minY: number;
+  maxX: number;
+  maxY: number;
+};
+
+type DirectionInfo = {
+  next: Direction;
+  dx: number;
+  dy: number;
+};
+
+const DIRECTION_INFO: Record<Direction, DirectionInfo> = {
+  [0]: { next: 1, dx: 0, dy: -1 },
+  [1]: { next: 2, dx: 1, dy: 0 },
+  [2]: { next: 3, dx: 0, dy: 1 },
+  [3]: { next: 0, dx: -1, dy: 0 }
+} as const;
+
 const parseData = (data: string): [map: string[][], startPosition: Position] => {
-  const lines = data.split('\n').map(line => line.split(''));
+  const lines = data.trim().split('\n').map(line => line.split(''));
   let startPosition: Position = [0,0];
 
   lines.some((line, index) => {
@@ -14,166 +42,98 @@ const parseData = (data: string): [map: string[][], startPosition: Position] => 
   return [lines, startPosition];
 }
 
-enum DIRECTION {
-  UP = 0,
-  RIGHT = 1,
-  DOWN = 2,
-  LEFT = 3
-}
-
-enum POSITION_VALIDATION_RESULT {
-  MOVE = 0,
-  TURN = 1,
-  REACHED_EXIT = 2,
-  LOOP_DETECTED = 3,
-}
-
-const move = (position: Position, direction: DIRECTION): Position => {
-  const [x, y] = position;
-
-  switch (direction) {
-    case DIRECTION.UP:
-      return [x, y - 1];
-      
-    case DIRECTION.LEFT:
-      return [x - 1, y];
-    
-    case DIRECTION.DOWN:
-      return [x, y + 1];
-    
-    case DIRECTION.RIGHT:
-      return [x + 1, y];
-  }
-}
-
-const getNextDirection = (direction: DIRECTION): DIRECTION => {
-  if (direction === DIRECTION.LEFT) {
-    return DIRECTION.UP;
-  }
-
-  return direction + 1;
-}
-const loopTracker = new Set<string>();
-const validatePosition = (
-  position: Position, 
-  xMax : number, 
-  yMax: number, 
-  map: string[][], 
-  turnSignal: string, 
-  obstacle?: Position, 
-  currentDirection?: DIRECTION, 
-  visitedPositions?: Map<string, [number, number, number, number]>,
-): POSITION_VALIDATION_RESULT  => {  
-  const [x, y] = position;
-  
-  if (x < 0 || y < 0 || x >= xMax || y >= yMax) {
-    return POSITION_VALIDATION_RESULT.REACHED_EXIT;
-  }
-
-  const positionHistory = visitedPositions?.get(`${x},${y},${currentDirection}`);
-
-  if (positionHistory && positionHistory[3] > 1) {
-    return POSITION_VALIDATION_RESULT.REACHED_EXIT;
-  }
-
-  if (map[y][x] === turnSignal) {
-
-    if (obstacle) {
-      const [ox, oy] = obstacle;
-
-      if (ox === x && oy === y) {
-  
-        // Get the position before the obstacle
-        let prevX: number = 0;
-        let prevY: number = 0;
-        if (currentDirection === DIRECTION.UP) {
-          prevY = 1;
-        } else if (currentDirection === DIRECTION.DOWN) {
-          prevY = -1;
-        } else if (currentDirection === DIRECTION.LEFT) {
-          prevX = 1;
-        } else if (currentDirection === DIRECTION.RIGHT) {
-          prevX = -1;
-        }
-        // console.log('OBSTACLE', obstacle, currentDirection);
-  
-        // If the position has been visited before in the same direction, a loop is found
-        if (visitedPositions?.has(`${ox + prevX},${oy + prevY},${currentDirection}`)) {
-          // console.log('LOOP DETECTED', `${ox + prevX},${oy + prevY},${currentDirection}`);
-          loopTracker.add(`${ox},${oy}`);
-          return POSITION_VALIDATION_RESULT.LOOP_DETECTED;
-        }
-      }
-    }
-
-    return POSITION_VALIDATION_RESULT.TURN;
-  }
-
-  return POSITION_VALIDATION_RESULT.MOVE;
-}
-
 const walkPath = (
-  startPosition: Position, 
-  direction: DIRECTION, 
-  map: string[][], 
-  obstacle?: Position,
-) => {
-  let currentDirection: DIRECTION = direction;
-  let position: Position = startPosition;
-  const uniquePositions: Map<string, DIRECTION> = new Map();
-  const allVisitedPositions: Map<string, [number, number, number, number]> = new Map();
-  let control = 0;
-
-  while (control < 800) {
-    const nextPosition = move(position, currentDirection);
-    const nextAction = validatePosition(
-      nextPosition, 
-      map[0].length, 
-      map.length, 
-      map, 
-      '#', 
-      obstacle, 
-      currentDirection, 
-      allVisitedPositions,
-    );
-
-    if (nextAction === POSITION_VALIDATION_RESULT.LOOP_DETECTED) {
-      return nextAction;
-
-    } else if (nextAction === POSITION_VALIDATION_RESULT.MOVE) {
-      // console.log('MOVE', position.toString(), '->', nextPosition.toString());
-      position = nextPosition;
-      uniquePositions.set(`${position[0]},${position[1]}`, currentDirection);
-      if (allVisitedPositions.has(`${position[0]},${position[1]},${currentDirection}`)) {
-        const existing = allVisitedPositions.get(`${position[0]},${position[1]},${currentDirection}`);
-        if (existing) {
-          allVisitedPositions.set(
-            `${position[0]},${position[1]},${currentDirection}`, 
-            [...position, currentDirection, existing[3] + 1]
-          );
-        }
-      } else {
-        allVisitedPositions.set(
-          `${position[0]},${position[1]},${currentDirection}`, 
-          [...position, currentDirection, 1]
-        );
-      }
-      continue;
-
-    } else if (nextAction === POSITION_VALIDATION_RESULT.REACHED_EXIT) {
-      // console.log('EXIT REACHED');
-      return obstacle ? allVisitedPositions : uniquePositions;
-
-    } else if (nextAction === POSITION_VALIDATION_RESULT.TURN) { 
-      const nextDirection = getNextDirection(currentDirection);
-      // console.log('TURN', DIRECTION[currentDirection].toString(), '->', DIRECTION[nextDirection].toString());
-      currentDirection = nextDirection;
+  startPosition: Position,
+  startDirection: Direction,
+  map: string[][],
+  mapWidth: number
+): Set<number> => {
+  const visited = new Set<number>();
+  let [x, y] = startPosition;
+  let currentDirection = startDirection;
+  const mapHeight = map.length;
+  
+  // Pre-calculate bounds
+  const bounds: BoundsCheck = {
+    minX: 0,
+    minY: 0,
+    maxX: mapWidth - 1,
+    maxY: mapHeight - 1
+  };
+  
+  visited.add(y * mapWidth + x);
+  
+  while (true) {
+    const { dx, dy, next } = DIRECTION_INFO[currentDirection];
+    const nextX = x + dx;
+    const nextY = y + dy;
+    
+    if (nextX < bounds.minX || nextY < bounds.minY || 
+        nextY > bounds.maxY || nextX > bounds.maxX) {
+      break;
     }
-    control+= 1;
+    
+    if (map[nextY][nextX] === '#') {
+      currentDirection = next;
+    } else {
+      x = nextX;
+      y = nextY;
+
+      // Add position to visited set, using a single number
+      // to represent the position
+      visited.add(y * mapWidth + x);
+    }
+  }
+  
+  return visited;
+}
+
+const isValidLoopPosition = (
+  position: Position,
+  startPosition: Position,
+  startDirection: Direction,
+  map: string[][]
+): boolean => {
+  // Don't allow obstacle at start position
+  if (position[0] === startPosition[0] && position[1] === startPosition[1]) {
+    return false;
   }
 
-  console.log('CONTROL REACHED', allVisitedPositions);
-  return control; 
+  // Track positions and directions to detect loops
+  const visited = new Set<string>();
+  let [x, y] = startPosition;
+  let currentDirection = startDirection;
+  const mapWidth = map[0].length;
+  const mapHeight = map.length;
+
+  while (true) {
+    const positionWithDirection = `${x},${y},${currentDirection}`;
+    
+    // If we've been here in this direction before, it's a loop
+    if (visited.has(positionWithDirection)) {
+      return true;
+    }
+    
+    visited.add(positionWithDirection);
+    
+    // Check next position
+    const { dx, dy, next } = DIRECTION_INFO[currentDirection];
+    const nextX = x + dx;
+    const nextY = y + dy;
+    
+    // Check if we're out of bounds
+    if (nextX < 0 || nextY < 0 || nextY >= mapHeight || nextX >= mapWidth) {
+      return false;
+    }
+    
+    // Check if there's an obstacle ahead (including our test position)
+    if (map[nextY][nextX] === '#' || (nextX === position[0] && nextY === position[1])) {
+      currentDirection = next;
+    } else {
+      x = nextX;
+      y = nextY;
+    }
+  }
 }
 
 export const day6Part1Solution = (data: string): number | null => {
@@ -182,10 +142,8 @@ export const day6Part1Solution = (data: string): number | null => {
   }
 
   const [map, startPosition] = parseData(data);
-  const startDirection = DIRECTION.UP;
-  const uniquePositions = walkPath(startPosition, startDirection, map) as Map<string, DIRECTION>;
-
-  return uniquePositions.size;
+  const mapWidth = map[0].length;
+  return walkPath(startPosition, DIRECTION.UP, map, mapWidth).size;
 }
 
 export const day6Part2Solution = (data: string): number | null => {
@@ -193,46 +151,25 @@ export const day6Part2Solution = (data: string): number | null => {
     return null;
   }
 
-  const startTime = Date.now();
-  // console.clear();
-
   const [map, startPosition] = parseData(data);
-  const startDirection = DIRECTION.UP;
-  let loopCount: number = 0;
+  const mapWidth = map[0].length;
+  const visited = walkPath(startPosition, DIRECTION.UP, map, mapWidth);
+  let validLoops = 0;
 
-  // Get the walking path
-  const uniquePositions = walkPath(startPosition, startDirection, map, [-1,-1]);
-  loopTracker.clear();
-
-  for (const position of uniquePositions as Map<string, [number, number, number, number]>) {
-    const obstacle: Position = [position[1][0], position[1][1]] as Position;
+  // Pre-calculate start position key
+  const startPosKey = startPosition[1] * mapWidth + startPosition[0];
+  
+  for (const posKey of visited) {
+    if (posKey === startPosKey) continue;
     
-    // Set the start position and direction; one postion before the obstacle
-    let startX = 0;
-    let startY = 0;
-    const obstacleDirection = position[1][2];
-    if (obstacleDirection === DIRECTION.UP) {
-      startY = 1;
-    } else if (obstacleDirection === DIRECTION.DOWN) {
-      startY = -1;
-    } else if (obstacleDirection === DIRECTION.LEFT) {
-      startX = 1;
-    } else if (obstacleDirection === DIRECTION.RIGHT) {
-      startX = -1;
-    }
-
-    const startPos: Position = [obstacle[0] + startX, obstacle[1] + startY];
-
-    map[obstacle[1]][obstacle[0]] = '#';
-    const result = walkPath(startPos, obstacleDirection, map, obstacle);
-    map[obstacle[1]][obstacle[0]] = '.';
-
-    if (result === POSITION_VALIDATION_RESULT.LOOP_DETECTED) {
-      loopCount += 1;
+    // Inline position calculations; see key encoding on line 84
+    const x = posKey % mapWidth;
+    const y = (posKey / mapWidth) | 0; // Faster than Math.floor
+    
+    if (isValidLoopPosition([x, y], startPosition, DIRECTION.UP, map)) {
+      validLoops++;
     }
   }
 
-    console.log(loopCount, loopTracker.size); 
-    console.log(`Runtime: ${Date.now() - startTime}ms`);
-    return loopTracker.size;
+  return validLoops;
 }
