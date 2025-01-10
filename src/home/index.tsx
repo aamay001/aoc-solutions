@@ -16,7 +16,7 @@ const completed: { [key: number]: [boolean, boolean] } = {
   3: [true, true],
   4: [true, true],
   5: [true, true],
-  6: [true, false],
+  6: [true, true],
   7: [true, true],
   8: [true, true],
   9: [true, true]
