@@ -19,7 +19,8 @@ const completed: { [key: number]: [boolean, boolean] } = {
   6: [true, true],
   7: [true, true],
   8: [true, true],
-  9: [true, true]
+  9: [true, true],
+  10: [true, true]
 };
 
 const Star: React.FC<{ done: boolean }> = ({ done }) => 
