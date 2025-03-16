@@ -6,7 +6,7 @@ import { appImageAlt } from "../constants/strings";
 import appImage from '../assets/app.png';
 
 const days: number[] = [];
-for (let i = 0; i < 25; i++) {
+for (let i = 0; i < 10; i++) {
   days.push(i+1);
 }
 
